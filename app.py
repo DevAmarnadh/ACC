@@ -68,13 +68,17 @@ st.markdown("""
 if 'content_generator' not in st.session_state:
     st.session_state.content_generator = ContentGenerator()
 
-if 'ai_generator' not in st.session_state:
+    if 'ai_init_error' not in st.session_state:
+        st.session_state.ai_init_error = None
+
     try:
         st.session_state.ai_generator = AIContentGenerator()
         st.session_state.ai_available = st.session_state.ai_generator.ai_available
-    except:
+        st.session_state.ai_init_error = None
+    except Exception as e:
         st.session_state.ai_generator = None
         st.session_state.ai_available = False
+        st.session_state.ai_init_error = str(e)
 
 if 'selected_model' not in st.session_state:
     st.session_state.selected_model = "GPT-3.5 Turbo"
@@ -350,6 +354,14 @@ with col1:
     # Status
     if not st.session_state.ai_available:
         st.caption("⚠️ AI not configured - using templates")
+        if st.session_state.get('ai_init_error'):
+            st.error(f"Error: {st.session_state.ai_init_error}")
+            with st.expander("Show fix"):
+                st.markdown("""
+                **Missing API Key?**
+                - Local: Add `OPENROUTER_API_KEY` to `.env`
+                - Streamlit Cloud: Add `OPENROUTER_API_KEY` to **Settings > Secrets**
+                """)
     elif use_ai_mode and generate_all:
         st.caption("✅ AI mode - Will generate ALL 6 categories!")
     elif use_ai_mode:
