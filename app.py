@@ -327,46 +327,38 @@ with col1:
             topic = None
             st.info("👆 Upload a script file to rephrase it using framework flows")
     
-    # Generation settings
-    st.session_state.use_ai = st.session_state.ai_available
+    # Generation mode toggle
+    col_a, col_b = st.columns(2)
+    with col_a:
+        use_ai_mode = st.checkbox(
+            "🤖 Use AI Generation",
+            value=st.session_state.ai_available,
+            disabled=not st.session_state.ai_available,
+            help="Use AI models for generation (requires API key)"
+        )
+        st.session_state.use_ai = use_ai_mode
     
-    # Only show "Generate All" if AI is available
-    if st.session_state.ai_available:
+    with col_b:
         generate_all = st.checkbox(
             "🎯 Generate All 6 Categories",
             value=False,
+            disabled=not (st.session_state.ai_available and use_ai_mode),
             help="Generate content for ALL 6 framework categories at once!"
         )
         st.session_state.generate_all_categories = generate_all
-    else:
-        st.session_state.generate_all_categories = False
     
     # Status
     if not st.session_state.ai_available:
-        st.error("⚠️ AI not configured - falling back to templates")
-        with st.expander("🔧 How to enable AI features"):
-            st.markdown("""
-            **1. Local Development:**
-            - Create a `.env` file in the project root
-            - Add: `OPENROUTER_API_KEY=your_key_here`
-            
-            **2. Streamlit Cloud Deployment:**
-            - Go to your App Dashboard
-            - Click **Settings** -> **Secrets**
-            - Add the following secret:
-            ```toml
-            OPENROUTER_API_KEY = "your_key_here"
-            ```
-            """)
-    elif st.session_state.generate_all_categories:
+        st.caption("⚠️ AI not configured - using templates")
+    elif use_ai_mode and generate_all:
         st.caption("✅ AI mode - Will generate ALL 6 categories!")
-    elif st.session_state.use_ai:
+    elif use_ai_mode:
         st.caption("✅ AI mode - Single category")
     else:
         st.caption("📝 Template mode")
     
     # Model selection (only if AI mode is enabled)
-    if st.session_state.ai_available and st.session_state.use_ai:
+    if st.session_state.ai_available and use_ai_mode:
         model_names = OpenRouterAI.get_model_names()
         selected_model_name = st.selectbox(
             "🤖 AI Model",
@@ -390,7 +382,7 @@ with col2:
             if uploaded_script:
                 context = f"ORIGINAL SCRIPT TO REPHRASE:\n\n{uploaded_script}\n\nRephrase this script following the framework flows while keeping the core message."
             
-            with st.spinner(f"🔍 {'Rephrasing script' if uploaded_script else 'Searching Google'} & generating with {st.session_state.selected_model if st.session_state.ai_available and st.session_state.use_ai else 'templates'}..."):
+            with st.spinner(f"🔍 {'Rephrasing script' if uploaded_script else 'Searching Google'} & generating with {st.session_state.selected_model if st.session_state.ai_available and use_ai_mode else 'templates'}..."):
                 try:
                     # Check if generating all categories
                     if st.session_state.generate_all_categories and st.session_state.multi_generator:

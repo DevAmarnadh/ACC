@@ -26,50 +26,62 @@ Transform any topic into viral, structured content optimized for YouTube Shorts,
 - **Hashtag Generation** - Relevant, trending hashtags
 - **CTA Suggestions** - Platform-specific calls-to-action
 
-### 💾 **Cloud Database (Supabase PostgreSQL)**
-- **PostgreSQL Database** - Cloud-hosted on Supabase
-- **History Tracking** - Access all previously generated content
-- **Export Functionality** - Download content as formatted text files
-- **Statistics Dashboard** - Track usage and category breakdown
-- **Real-time Sync** - All data stored securely in the cloud
+# 🚀 AI Content Engine
 
-### 🎨 **Premium UI/UX**
-- **Streamlit Interface** - Beautiful, interactive web application
-- **Modern Dark Theme** - Professional gradient design
-- **Smooth Animations** - Engaging user experience
-- **Responsive Design** - Works on all devices
-- **Real-time Generation** - Instant content creation
+Transform simple ideas into viral multi-platform content 10x faster using AI.
 
----
+## ✨ Features
 
-## 🚀 Quick Start
+- **Multi-Platform Generation**: Create optimized content for YouTube Shorts, Instagram Reels, Twitter Threads, and more.
+- **AI-Powered**: Leverages advanced improved AI models via OpenRouter.
+- **Smart Context**: Analyzes your input and web search results for accuracy.
+- **Framework-Based**: Uses proven viral storytelling frameworks.
+- **Stunning UI**: Modern, clean, and responsive React interface.
+
+## 🛠️ Technology Stack
+
+- **Frontend**: React, Vite, Framer Motion, Lucide Icons
+- **Backend**: FastAPI, Python
+- **Database**: Supabase (PostgreSQL)
+- **AI**: OpenRouter API
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
-- Supabase account (free tier works great!)
+
+- Python 3.8+
+- Node.js 16+
+- OPENROUTER_API_KEY (in .env)
+- SUPABASE_URL & KEY (optional, for history)
 
 ### Installation
 
-1. **Clone or Download** this repository
+1. Clone the repository
+2. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Install Frontend dependencies:
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-2. **Install Dependencies**
+### Running the App
+
+Simply run the start script:
+
 ```bash
-pip install -r requirements.txt
+start_app.bat
 ```
 
-3. **Configure Database** (Already configured!)
-The `.env` file contains your Supabase PostgreSQL connection:
-```
-DATABASE_URL=postgresql://postgres:Single@6112123ed@db.flcdlrjzuompnirafxns.supabase.co:5432/postgres
-```
+This will launch:
+- Backend API at http://localhost:8000
+- Frontend App at http://localhost:5173
 
-4. **Run the Application**
+## 📝 License
 
-**Option A: Using the start script (Recommended)**
-```bash
-start.bat
-```
+MIT
 
 **Option B: Direct command**
 ```bash

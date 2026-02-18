@@ -27,24 +27,13 @@ class OpenRouterAI:
     }
     
     def __init__(self):
-        # Try getting from environment variable first
         self.api_key = os.getenv('OPENROUTER_API_KEY')
-        
-        # If not in env, try Streamlit secrets
-        if not self.api_key:
-            try:
-                import streamlit as st
-                if "OPENROUTER_API_KEY" in st.secrets:
-                    self.api_key = st.secrets["OPENROUTER_API_KEY"]
-            except:
-                pass
-        
         self.site_url = os.getenv('OPENROUTER_SITE_URL', 'https://ai-content-engine.app')
         self.site_name = os.getenv('OPENROUTER_SITE_NAME', 'AI Content Engine')
         self.base_url = "https://openrouter.ai/api/v1/chat/completions"
         
         if not self.api_key:
-            raise ValueError("OPENROUTER_API_KEY not found in environment variables or Streamlit secrets")
+            raise ValueError("OPENROUTER_API_KEY not found in environment variables")
     
     def generate(self, prompt: str, model: str = "openai/gpt-3.5-turbo", max_tokens: int = 2000) -> Optional[str]:
         """
