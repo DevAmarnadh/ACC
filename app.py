@@ -343,7 +343,21 @@ with col1:
     
     # Status
     if not st.session_state.ai_available:
-        st.caption("⚠️ AI not configured - using templates")
+        st.error("⚠️ AI not configured - falling back to templates")
+        with st.expander("🔧 How to enable AI features"):
+            st.markdown("""
+            **1. Local Development:**
+            - Create a `.env` file in the project root
+            - Add: `OPENROUTER_API_KEY=your_key_here`
+            
+            **2. Streamlit Cloud Deployment:**
+            - Go to your App Dashboard
+            - Click **Settings** -> **Secrets**
+            - Add the following secret:
+            ```toml
+            OPENROUTER_API_KEY = "your_key_here"
+            ```
+            """)
     elif st.session_state.generate_all_categories:
         st.caption("✅ AI mode - Will generate ALL 6 categories!")
     elif st.session_state.use_ai:
